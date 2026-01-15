@@ -51,8 +51,7 @@ class BluetoothConnectionTracker(
         val characteristic: BluetoothGattCharacteristic? = null,
         val rssi: Int = Int.MIN_VALUE,
         val isClient: Boolean = false,
-        val connectedAt: Long = System.currentTimeMillis(),
-        val peerID: String? = null
+        val connectedAt: Long = System.currentTimeMillis()
     )
     
     /**
@@ -177,7 +176,7 @@ class BluetoothConnectionTracker(
      */
     fun isPeerConnected(peerID: String): Boolean {
         // Only consider actual connected devices that have identified themselves
-        return connectedDevices.values.any { it.peerID == peerID }
+        return addressPeerMap.containsValue(peerID)
     }
     
     /**

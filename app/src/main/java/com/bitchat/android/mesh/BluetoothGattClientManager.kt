@@ -450,10 +450,14 @@ class BluetoothGattClientManager(
                         device = gatt.device,
                         gatt = gatt,
                         rssi = rssi,
-                        isClient = true,
-                        peerID = peerID // Store the peerID discovered during scan
+                        isClient = true
                     )
                     connectionTracker.addDeviceConnection(deviceAddress, deviceConn)
+                    
+                    // If we identified the peer via Scan Response (Service Data), record the mapping immediately
+                    if (peerID != null) {
+                        connectionTracker.addressPeerMap[deviceAddress] = peerID
+                    }
                     
                     // Start service discovery only AFTER MTU is set.
                     gatt.discoverServices()
